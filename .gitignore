@@ -113,6 +113,7 @@ orleans.codegen.cs
 # Ignore bin and obj folder
 bin/
 obj/
+lib/
 
 # Gitattributes
 .gitattributes
