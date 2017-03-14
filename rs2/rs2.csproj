@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>rs2</AssemblyName>
+    <RootNamespace>rs2</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="jose-jwt" Version="2.2.0" />
