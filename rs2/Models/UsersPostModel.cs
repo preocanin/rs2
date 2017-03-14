@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using rs2.Models.Database;
+
 namespace rs2.Models
 {
     public class UsersPostModel

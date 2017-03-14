@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using WebMarkupMin.AspNetCore1;
 
 using rs2.Models.Database;
-using System;
-using WebMarkupMin.AspNetCore1;
+using rs2.Models.Repository;
 
 namespace rs2
 {

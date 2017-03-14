@@ -31,7 +31,7 @@ namespace rs2.Models.Repository
             {
                 Context.SaveChanges();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 statusCode = 422;
                 msg = "User already exists";
