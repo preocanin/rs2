@@ -8,6 +8,7 @@ namespace rs2.Models.Repository
     {
         void AddUser(UsersPostModel newUser, out int status, out string msg);
         IEnumerable<UserGetModel> AllUsers { get; }
+        UserGetModel GetUserById(int id);
         string IsValidLogin(AuthLoginModel model, out User outUser, out bool status);
         string ValidateToken(string token, out bool status);
     }

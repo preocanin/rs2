@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 using rs2.Models;
+using rs2.Models.Database;
 using rs2.Models.Repository;
 
 namespace rs2.Controllers
@@ -25,12 +26,19 @@ namespace rs2.Controllers
             return Json(AppRepo.AllUsers);
         }
 
-        [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        // Admin only
+        // GET: api/users/2
+        [HttpGet("{id:int}")]
+        public JsonResult Get([FromRoute]int? id)
         {
-            // Just for ADMIN
-            if (AuthRepo.IsAuthenticated())
-                return Json(new { msg = "Authenticated" });
+            if (AuthRepo.IsAuthenticated(Role.Admin)) {
+                if (id.HasValue)
+                {
+                    var user = AppRepo.GetUserById(id.Value);
+                    if(user != null)
+                        return Json(user);
+                }
+            }
             return Json(new { msg = "Unauthorized" });
         }
 
@@ -54,17 +62,18 @@ namespace rs2.Controllers
         }
 
         // PUT api/users/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut("{id:int}")]
+        public void Put([FromRoute]int? id, [FromBody]string value)
         {
             //Change pasword ALLUSERS
         }
 
+        // Admin only
         // DELETE api/users/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id:int}")]
+        public void Delete([FromRoute]int? id)
         {
-            //Delete user ADMIN
+            
         }
     }
 }

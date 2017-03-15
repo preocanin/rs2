@@ -49,6 +49,17 @@ namespace rs2.Models.Repository
                                                       }).ToArray();
 
         //TODO: User(id)
+        public UserGetModel GetUserById(int id)
+        {
+            var users = from u in Context.Users
+                        where u.UserId == id
+                        select new UserGetModel()
+                        {
+                            UserId = u.UserId,
+                            Username = u.Username
+                        };
+            return users == null ? null : users.First();
+        }
 
         //TODO: AllRecords()
 
