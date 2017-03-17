@@ -3,6 +3,7 @@
 using rs2.Models;
 using rs2.Models.Database;
 using rs2.Models.Repository;
+using System.Numerics;
 
 namespace rs2.Controllers
 {
@@ -18,12 +19,18 @@ namespace rs2.Controllers
             AuthRepo = authRepo;
         }
 
+        // Admin only
         // GET api/users
         [HttpGet]
-        public JsonResult Get()
+        public JsonResult Get([FromQuery]int offset = 0, [FromQuery]int limit = 3)
         {
-            //All users
-            return Json(AppRepo.AllUsers);
+            if (AuthRepo.IsAuthenticated(Role.Admin))
+            {
+                int count;
+                var users = AppRepo.GetAllUsers(offset, limit, out count);
+                return Json(new { Count = count, Users = users });
+            }
+            return Json(new { Msg = "Unauthorized" });
         }
 
         // Admin only
@@ -35,11 +42,15 @@ namespace rs2.Controllers
                 if (id.HasValue)
                 {
                     var user = AppRepo.GetUserById(id.Value);
-                    if(user != null)
+                    if (user != null)
                         return Json(user);
+                    else
+                        Response.StatusCode = 404;
+                        return Json(new { Msg = "User doesn't exists" });
                 }
             }
-            return Json(new { msg = "Unauthorized" });
+            Response.StatusCode = 401;
+            return Json(new { Msg = "You are not admin" });
         }
 
         // POST: api/users

@@ -41,12 +41,19 @@ namespace rs2.Models.Repository
             msg = "Ok";
         }
 
-        public IEnumerable<UserGetModel> AllUsers => (from u in Context.Users
-                                                      select new UserGetModel()
-                                                      {
-                                                          UserId = u.UserId,
-                                                          Username = u.Username
-                                                      }).ToArray();
+        public UserGetModel[] GetAllUsers(int offset, int limit, out int count)
+        {
+            var users =  from u in Context.Users
+                         where u.Role != Role.Admin
+                         select new UserGetModel()
+                         {
+                             UserId = u.UserId,
+                             Username = u.Username
+                         };
+
+            count = users.Count();
+            return users.Skip(offset).Take(limit).ToArray();
+        }
 
         //TODO: User(id)
         public UserGetModel GetUserById(int id)
@@ -58,7 +65,7 @@ namespace rs2.Models.Repository
                             UserId = u.UserId,
                             Username = u.Username
                         };
-            return users == null ? null : users.First();
+            return users == null ? null : users.Count() == 0? null : users.First();
         }
 
         //TODO: AllRecords()
