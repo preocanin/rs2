@@ -55,7 +55,6 @@ namespace rs2.Models.Repository
             return users.Skip(offset).Take(limit).ToArray();
         }
 
-        //TODO: User(id)
         public UserGetModel GetUserById(int id)
         {
             var users = from u in Context.Users
@@ -66,6 +65,23 @@ namespace rs2.Models.Repository
                             Username = u.Username
                         };
             return users == null ? null : users.Count() == 0? null : users.First();
+        }
+
+        public int DeleteUser(int id)
+        {
+            var users = from u in Context.Users
+                       where u.UserId == id &&
+                             u.Role == Role.Client
+                       select u;
+            if (users == null || users.Count() == 0)
+                return 404;
+            else
+            {
+                var user = users.First();
+                Context.Users.Remove(user);
+                Context.SaveChanges();
+                return 200;
+            }
         }
 
         //TODO: AllRecords()

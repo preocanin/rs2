@@ -84,7 +84,17 @@ namespace rs2.Controllers
         [HttpDelete("{id:int}")]
         public void Delete([FromRoute]int? id)
         {
-            
+            if(AuthRepo.IsAuthenticated(Role.Admin))
+            {
+                if (id.HasValue && id.Value != AuthRepo.CurrentUserId)
+                {
+                    Response.StatusCode = AppRepo.DeleteUser(id.Value);
+                    return;
+                }
+            }
+
+            Response.StatusCode = 401;
+            return;
         }
     }
 }
