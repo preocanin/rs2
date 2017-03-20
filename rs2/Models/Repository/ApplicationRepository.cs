@@ -67,18 +67,17 @@ namespace rs2.Models.Repository
             return users == null ? null : users.Count() == 0? null : users.First();
         }
 
-        public int DeleteUser(int id)
+        public int DeleteUsers(IEnumerable<int> ids)
         {
             var users = from u in Context.Users
-                       where u.UserId == id &&
-                             u.Role == Role.Client
-                       select u;
+                        where u.Role == Role.Client &&
+                              ids.Contains(u.UserId)
+                        select u;
             if (users == null || users.Count() == 0)
                 return 404;
             else
             {
-                var user = users.First();
-                Context.Users.Remove(user);
+                Context.Users.RemoveRange(users);
                 Context.SaveChanges();
                 return 200;
             }

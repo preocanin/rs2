@@ -45,11 +45,10 @@ namespace rs2.Controllers
 
         // POST - api/auth/logout
         [HttpPost("logout")]
-        public JsonResult Post()
+        public void Post()
         {
             if (AuthRepo.IsAuthenticated())
                 Response.Cookies.Delete("access_token");
-            return Json(new { msg = "Loged out" });
         }
     }
 }
