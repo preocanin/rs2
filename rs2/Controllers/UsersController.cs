@@ -22,12 +22,12 @@ namespace rs2.Controllers
         // Admin only
         // GET api/users
         [HttpGet]
-        public JsonResult Get([FromQuery]int offset = 0, [FromQuery]int limit = 3)
+        public JsonResult Get([FromQuery]string search, [FromQuery]int offset = 0, [FromQuery]int limit = 3)
         {
             if (AuthRepo.IsAuthenticated(Role.Admin))
             {
                 int count;
-                var users = AppRepo.GetAllUsers(offset, limit, out count);
+                var users = AppRepo.GetAllUsers(offset, limit, search, out count);
                 return Json(new { Count = count, Users = users });
             }
             return Json(new { Msg = "Unauthorized" });

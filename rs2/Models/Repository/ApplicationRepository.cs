@@ -41,10 +41,13 @@ namespace rs2.Models.Repository
             msg = "Ok";
         }
 
-        public UserGetModel[] GetAllUsers(int offset, int limit, out int count)
+        public UserGetModel[] GetAllUsers(int offset, int limit, string search, out int count)
         {
             var users =  from u in Context.Users
-                         where u.Role != Role.Admin
+                         let searchResult = 
+                             search == null? true : (u.Username.Contains(search) || u.Email.Contains(search))
+                         where u.Role != Role.Admin && 
+                               searchResult
                          select new UserGetModel()
                          {
                              UserId = u.UserId,
