@@ -5,6 +5,16 @@
     <AssemblyName>rs2</AssemblyName>
     <RootNamespace>rs2</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\css\app.css" />
+    <Content Include="wwwroot\templates\client.html" />
+    <Content Include="wwwroot\templates\clients.html" />
+    <Content Include="wwwroot\templates\data.html" />
+    <Content Include="wwwroot\templates\home.html" />
+    <Content Include="wwwroot\templates\login.html" />
+    <Content Include="wwwroot\templates\register.html" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="jose-jwt" Version="2.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -21,10 +31,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\controllers\" />
     <Folder Include="wwwroot\img\" />
-    <Folder Include="wwwroot\templates\" />
   </ItemGroup>
 
 </Project>

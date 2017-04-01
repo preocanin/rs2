@@ -1,0 +1,19 @@
+<div class=" clients container">
+    <div class="title">
+        <h2>Clients</h2>
+    </div>
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <th>id</th>
+                <th>username</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in vm.users">
+                    <td><a href="#/clients/{{user.id}}">{{user.id}}</a></td>
+                    <td>{{user.username}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

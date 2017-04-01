@@ -5,6 +5,7 @@
     "angular": "1.6.3",
     "angular-route": "1.6.3",
     "bootstrap": "3.3.7",
-    "components-font-awesome": "4.7.0"
+    "components-font-awesome": "4.7.0",
+    "angular-ui-router": "0.4.2"
   }
 }

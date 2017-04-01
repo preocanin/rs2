@@ -1,0 +1,8 @@
+a {
+    cursor: pointer;
+}
+
+.clients.container {
+    position: absolute;
+    top: 40px;
+}
