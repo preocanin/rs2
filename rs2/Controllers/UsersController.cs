@@ -3,7 +3,7 @@
 using rs2.Models;
 using rs2.Models.Database;
 using rs2.Models.Repository;
-using System.Numerics;
+using System.Collections.Generic;
 
 namespace rs2.Controllers
 {
@@ -22,12 +22,12 @@ namespace rs2.Controllers
         // Admin only
         // GET api/users
         [HttpGet]
-        public JsonResult Get([FromQuery]int offset = 0, [FromQuery]int limit = 3)
+        public JsonResult Get([FromQuery]string search, [FromQuery]int offset = 0, [FromQuery]int limit = 3)
         {
             if (AuthRepo.IsAuthenticated(Role.Admin))
             {
                 int count;
-                var users = AppRepo.GetAllUsers(offset, limit, out count);
+                var users = AppRepo.GetAllUsers(offset, limit, search, out count);
                 return Json(new { Count = count, Users = users });
             }
             return Json(new { Msg = "Unauthorized" });
@@ -80,21 +80,17 @@ namespace rs2.Controllers
         }
 
         // Admin only
-        // DELETE api/users/5
-        [HttpDelete("{id:int}")]
-        public void Delete([FromRoute]int? id)
+        // DELETE api/users
+        [HttpDelete]
+        public void Delete([FromBody]IEnumerable<int> usersForDelete)
         {
             if(AuthRepo.IsAuthenticated(Role.Admin))
             {
-                if (id.HasValue && id.Value != AuthRepo.CurrentUserId)
-                {
-                    Response.StatusCode = AppRepo.DeleteUser(id.Value);
-                    return;
-                }
+                Response.StatusCode = AppRepo.DeleteUsers(usersForDelete);
+                return;
             }
 
             Response.StatusCode = 401;
-            return;
         }
     }
 }
