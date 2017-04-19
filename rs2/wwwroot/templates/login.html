@@ -1,6 +1,6 @@
-<!-- LOGIN FORM -->
+﻿<!-- LOGIN FORM -->
 <div class="text-center" style="padding:50px 0">
-	<div class="logo">login</div>
+	<div class="logo">Prijavite se</div>
 	<!-- Main Form -->
 	<div class="login-form-1">
 		<form id="login-form" class="text-left">
@@ -8,23 +8,19 @@
 			<div class="main-login-form">
 				<div class="login-group">
 					<div class="form-group">
-						<label for="lg_username" class="sr-only">Username</label>
-						<input type="text" class="form-control" id="lg_username" name="lg_username" placeholder="username">
+						<label for="lg_username" class="sr-only">Korisničko ime</label>
+						<input type="text" class="form-control" id="lg_username" name="lg_username" placeholder="korisničko ime">
 					</div>
 					<div class="form-group">
-						<label for="lg_password" class="sr-only">Password</label>
-						<input type="password" class="form-control" id="lg_password" name="lg_password" placeholder="password">
-					</div>
-					<div class="form-group login-group-checkbox">
-						<input type="checkbox" id="lg_remember" name="lg_remember">
-						<label for="lg_remember">remember</label>
+						<label for="lg_password" class="sr-only">Lozinka</label>
+						<input type="password" class="form-control" id="lg_password" name="lg_password" placeholder="lozinka">
 					</div>
 				</div>
 				<button ng-click="vm.lg_submit()" class="login-button"><i class="fa fa-chevron-right"></i></button>
 			</div>
 			<div class="etc-login-form">
 <!--				<p>forgot your password? <a href="#">click here</a></p>-->
-				<p>new user? <a href="#/register">create new account</a></p>
+				<p>Novi korisnik? <a href="#/register">Registrujte se</a></p>
 			</div>
 		</form>
 	</div>
