@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    color: #3a606e;
+    opacity: 100%;
 }
 
 
@@ -30,23 +32,23 @@ Last change	: 2015/03/27
 /*=== 1. General Structure ===*/
 html,
 body {
-    background: #efefef;
+    background: #FDF4F3;
     padding: 10px;
     font-family: "Arial", Helvetica, sans-serif;
 }
 /*=== 2. Anchor Link ===*/
 a {
-    color: #aaaaaa;
+    color: #6F8B95;
     transition: all ease-in-out 200ms;
 }
 
     a:hover {
-        color: #333333;
+        color: #3a606e;
         text-decoration: none;
     }
 /*=== 3. Text Outside the Box ===*/
 .etc-login-form {
-    color: #919191;
+    color: #3a606e;
     padding: 10px 20px;
 }
 
@@ -69,20 +71,19 @@ a {
     box-shadow: 0 0 0;
     border-radius: 0;
     background: transparent;
-    color: #555555;
     padding: 7px 0;
     font-weight: bold;
     height: auto;
 }
 
     .login-form-1 .form-control::-webkit-input-placeholder {
-        color: #999999;
+        color: #6F8B95;
     }
 
     .login-form-1 .form-control:-moz-placeholder,
     .login-form-1 .form-control::-moz-placeholder,
     .login-form-1 .form-control:-ms-input-placeholder {
-        color: #999999;
+        color: #6F8B95;
     }
 
 .login-form-1 .form-group {
@@ -98,7 +99,7 @@ a {
 
 .login-group {
     background: #ffffff;
-    color: #999999;
+    color: #3a606e;
     border-radius: 8px;
     padding: 10px 20px;
 }
@@ -316,7 +317,7 @@ label:hover:before {
 .logo {
     padding: 15px 0;
     font-size: 25px;
-    color: #aaaaaa;
+    color: #3a606e;
     font-weight: bold;
 }
 
@@ -337,5 +338,34 @@ a {
     margin-top: 30px;
 }
 
+.home-page-text {
+    font-size: 55px;
+    text-align:center;
+    padding-top: 80px;
+}
 
+.navbar-inverse {
+    background-color: #d5bbb1;
+    border-color: #b9929f;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #3a606e;
+}
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus, .navbar-inverse .navbar-nav > .active > a:hover {
+    background-color: #C2AAA1;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #3a606e;
+}
+
+.login-form-1 .form-control {
+    color: #6F8B95;
+}
+
+.form-control {
+    color: #6F8B95;
+}
 /* myStyle - end */
