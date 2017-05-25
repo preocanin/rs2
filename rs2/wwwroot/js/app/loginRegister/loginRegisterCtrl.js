@@ -1,15 +1,52 @@
-app.controller('loginRegisterCtrl', ['$location', '$rootScope', function loginRegisterCtrl ($location, $rootScope) {
+app.controller('loginRegisterCtrl', ['$http', '$location', '$rootScope',
+    function loginRegisterCtrl($http, $location, $rootScope) {
    "use strict";
 	
-    var vm = this;
+   var vm = this;
+   
     
     $rootScope.isAdmin = false;
     
-    vm.lg_submit = function() {
+    vm.lg_submit = function () {
+        var activationLink = "http://localhost:5000/api/auth/login";
+        var data = {};
+        console.log("prvo ovde");
         if(lg_username.value === 'admin' && lg_password.value === 'admin'){
             $rootScope.isAdmin = true;
         }
+
+        data.email = lg_username.value;
+        data.password = lg_password.value;
+        console.log("ovde");
+        
+
+        $http({ method: "post", url: activationLink, data: data }).success(function (response) {
+            console.log(response);
+
+        }).error(function (error) {
+            console.log(error);
+        });
+
         $location.path('/home');
+    }
+
+    vm.rg_submit = function () {
+        var data = {};
+
+        data.username = reg_username.value;
+        data.email = reg_email.value;
+        data.password = reg_password.value;
+
+        var url = "http://localhost:5000/api/users";
+
+        $http({ method: "post", url: url, data: data }).success(function (response) {
+            console.log(response);
+
+        }).error(function (error) {
+            console.log(error);
+            });
+
+        console.log("bio ovde");
     }
     
 	// Options for Message
