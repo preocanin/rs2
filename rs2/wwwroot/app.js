@@ -1,62 +1,74 @@
-﻿
-'use strict';
+(function () {
+    'use strict';
 
-/*global angular */
-var app = angular.module('app', ['ui.router']);
-
-
-app.config(['$urlRouterProvider', '$stateProvider', configRoutes])
-    .run(['$rootScope', '$state', configureStateWithScope]);
-
+    /*global angular */
+    angular
+        .module('app', ['ngRoute', 'ngCookies'])
+        .config(config)
+        .run(run);
+    
+    
+    config.$inject = ['$routeProvider', '$locationProvider'];
+    
 //    app.controller('homeCtrl', homeCtrl);
 //
 //    function homeCtrl(){
 //        
 //    }
 
-function configRoutes($urlRouterProvider, $stateProvider) {
-    $urlRouterProvider.otherwise('/home');
+    function config($routeProvider, $locationProvider) {
+        
+        $routeProvider
+            .when('/', {
+                templateUrl: 'templates/home.html',
+                controllerAs: 'vm'
+            })
+            .when('/login', {
+                templateUrl: 'templates/login.html',
+                controller: 'LoginController',
+                controllerAs: 'vm'
+            })
+            .when('/register', {
+                templateUrl: 'templates/register.html',
+                controller: 'RegisterController',
+                controllerAs: 'vm'
+            })
+            .when('/data', {
+                templateUrl: 'templates/data.html',
+                controller: 'dataCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/clients', {
+                templateUrl: 'templates/clients.html',
+                controller: 'clientsCtrl',
+                controllerAs: 'vm'
+            })
+            .when('/clients/:id', {
+                templateUrl: 'templates/client.html',
+                controller: 'clientCtrl',
+                controllerAs: 'vm'
+            })
+            .otherwise({ redirectTo: '/' });
+    }
 
-    $stateProvider
-        .state('home', {
-            url: '/home',
-            templateUrl: './templates/home.html',
-            controllerAs: 'vm'
-        })
-        .state('login', {
-            url: '/login',
-            templateUrl: './templates/login.html',
-            controller: 'loginRegisterCtrl',
-            controllerAs: 'vm'
-        })
-        .state('register', {
-            url: '/register',
-            templateUrl: './templates/register.html',
-            controller: 'loginRegisterCtrl',
-            controllerAs: 'vm'
-        })
-        .state('data', {
-            url: '/data',
-            templateUrl: './templates/data.html',
-            controller: 'dataCtrl',
-            controllerAs: 'vm'
-        })
-        .state('clients', {
-            url: '/clients',
-            templateUrl: './templates/clients.html',
-            controller: 'clientsCtrl',
-            controllerAs: 'vm'
-        })
-        .state('clients/:id', {
-            url: '/clients/:id',
-            templateUrl: "./templates/client.html",
-            controller: 'clientCtrl',
-            controllerAs: 'vm'
+
+    run.$inject = ['$rootScope', '$location', '$cookies', '$http'];
+
+    function run($rootScope, $location, $cookies, $http) {
+        // keep user logged in after page refresh
+        $rootScope.globals = $cookies.getObject('globals') || {};
+        if ($rootScope.globals.currentUser) {
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;
+        }
+
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            // redirect to login page if not logged in and trying to access a restricted page
+            var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+            var loggedIn = $rootScope.globals.currentUser;
+            if (restrictedPage && !loggedIn) {
+                $location.path('/login');
+            }
         });
-}
-
-
-function configureStateWithScope($rootScope, $state) {
-    $rootScope.$state = $state;
-}
-
+    }
+    
+})();

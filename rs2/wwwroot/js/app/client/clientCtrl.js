@@ -1,7 +1,16 @@
-app.controller('clientCtrl', ['$stateParams', function clientCtrl($stateParams) {
+(function(){
     
-    var vm = this;
+    angular
+        .module('app')
+        .controller('clientCtrl', clientCtrl);
     
-    vm.clientUsername = 'mika';
+    clientCtrl.$inject = ['$stateParams'];
+    function clientCtrl($stateParams) {
+        "use strict";
+
+        var vm = this;
     
-}]);
+        vm.clientUsername = 'mika';
+    }
+    
+})();

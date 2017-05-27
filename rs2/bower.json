@@ -6,6 +6,10 @@
     "angular-route": "1.6.3",
     "bootstrap": "3.3.7",
     "components-font-awesome": "4.7.0",
-    "angular-ui-router": "0.4.2"
+    "angular-ui-router": "0.4.2",
+    "angular-cookies": "v1.6.5-build.5390+sha.a86a319"
+  },
+  "resolutions": {
+    "angular": "1.6.5-build.5390+sha.a86a319"
   }
 }

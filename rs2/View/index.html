@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" >
 <head>
     <meta charset="utf-8">
@@ -27,9 +27,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li ng-class="{ 'active': $state.includes('home') }"><a href="#">Početna</a></li>
-                <li ng-class="{ 'active': $state.includes('data') }"><a href="#/data">Unos rezultata</a></li>
-                <li ng-show="isAdmin" ng-class="{ 'active': $state.includes('clients') }"><a href="#/clients">Klijenti</a></li>
+                <li ><a href="/">Početna</a></li>
+                <li ><a href="#!/data">Unos rezultata</a></li>
+                <li ng-show="globals.currentUser.email === 'admin@gmail.com'" ><a href="#!/clients">Korisnici</a></li>
             </ul>
 <!--
             <form class="navbar-form navbar-right">
@@ -43,25 +43,33 @@
             </form>
 -->
             <ul class="nav navbar-nav navbar-right">
-                    <li ng-class="{ 'active': $state.includes('register') }"><a href="#/register"><span class="fa fa-user"></span> Registracija</a></li>
-                    <li ng-class="{ 'active': $state.includes('login') }"><a href="#/login"><span class="fa fa-sign-in"></span> Prijavljivanje</a></li>
+                    <li ><a href="#!/register"><span class="fa fa-user"></span> Registracija</a></li>
+                    <li ng-show="!globals.currentUser.email" ><a href="#!/login"><span class="fa fa-sign-in"></span> Prijavljivanje</a></li>
+                    <li ng-click="vm.logout()" ng-hide="!globals.currentUser.email" ><a href="#!/login"><span class="fa fa-sign-out"></span> Odjavljivanje</a></li>
                 </ul>
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
 
     <div class="inner cover">
-        <ui-view></ui-view>
+        <ng-view></ng-view> 
     </div>
     
 <!--Scripts-->
-<!--<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.js"></script> 
-<script type="application/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script type="application/javascript" src="~/lib/jquery/dist/jquery.min.js"></script> 
+<!--<script type="application/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>-->
-<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script> 
-<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script> 
-<script type="application/javascript" src="~/app.js"></script> 
+<script type="application/javascript" src="~/lib/angular/angular.min.js"></script> 
+<script type="application/javascript" src="~/lib/angular-ui-router/release/angular-ui-router.min.js"></script> 
+<script type="application/javascript" src="~/lib/angular-route/angular-route.min.js"></script>
+<script type="application/javascript" src="~/lib/angular-cookies/angular-cookies.min.js"></script>
+<script type="application/javascript" src="~/app.js"></script>
+<script type="application/javascript" src="~/js/services/authentication.service.js"></script>
+<script type="application/javascript" src="~/js/services/user.service.js"></script>
+<script type="application/javascript" src="~/js/services/flash.service.js"></script>
 <script type="application/javascript" src="~/js/app/loginRegister/loginRegisterCtrl.js"></script> 
+<script type="application/javascript" src="~/js/app/loginRegister/loginCtrl.js"></script>
+<script type="application/javascript" src="~/js/app/loginRegister/registerCtrl.js"></script> 
 <script type="application/javascript" src="~/js/app/data/dataCtrl.js"></script> 
 <script type="application/javascript" src="~/js/app/clients/clientsCtrl.js"></script> 
 <script type="application/javascript" src="~/js/app/client/clientCtrl.js"></script> 

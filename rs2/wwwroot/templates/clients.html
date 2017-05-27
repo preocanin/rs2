@@ -1,17 +1,17 @@
 <div class=" clients container">
     <div class="title">
-        <h2>Clients</h2>
+        <h2>Korisnici</h2>
     </div>
     <div class="row">
         <table class="table table-hover">
             <thead>
                 <th>id</th>
-                <th>username</th>
+                <th>korisnicko ime</th>
             </thead>
             <tbody>
-                <tr ng-repeat="user in vm.users">
-                    <td><a href="#/clients/{{user.id}}">{{user.id}}</a></td>
-                    <td>{{user.username}}</td>
+                <tr ng-repeat="row in vm.data">
+                    <td><a href="#/clients/{{row.users.userid}}">{{row.users.userid}}</a></td>
+                    <td>{{row.users.username}}</td>
                 </tr>
             </tbody>
         </table>
