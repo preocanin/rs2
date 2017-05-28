@@ -1,4 +1,4 @@
-﻿body {
+body {
     padding-top: 50px;
     padding-bottom: 20px;
     color: #3a606e;
@@ -58,7 +58,7 @@ a {
 /*=== 4. Main Form ===*/
 .login-form-1 {
     max-width: 300px;
-    border-radius: 5px;
+    border-radius: 20px;
     display: inline-block;
 }
 
@@ -154,9 +154,43 @@ label.form-invalid {
     padding: 7px 9px;
     background: #777777;
     color: #ffffff;
-    border-radius: 5px;
+    border-radius: 20px;
     font-weight: bold;
     font-size: 11px;
+}
+
+.form-control {
+    border-radius: 20px;
+}
+
+label {
+    font-weight: 500;
+}
+
+.register {
+    margin-left: 20px;
+}
+
+.btn {
+    border-radius: 20px;
+    background-color: #d5bbb1;
+    border-color: #b9929f;
+}
+.btn-primary, .btn-primary.focus, .btn-primary:focus, .btn-primary:active, .btn-primary:hover {
+    color: #3a606e;
+}
+.btn-primary.disabled.focus, .btn-primary.disabled:focus, .btn-primary.disabled:hover, .btn-primary[disabled].focus, .btn-primary[disabled]:focus, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary.focus, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:hover{
+    background-color: #d5bbb1;
+    border-color: #b9929f;
+}
+
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover, .btn-primary:hover {
+    background-color: #d5bbb1;
+    border-color: #b9929f;
+}
+
+.form-control:focus {
+    border-color: #d5bbb1;
 }
 
     label.form-invalid:after {
@@ -177,7 +211,7 @@ label.form-invalid {
     background: #ffffff;
     color: #999999;
     border-left: 3px solid transparent;
-    border-radius: 3px;
+    border-radius: 20px;
     margin-bottom: 8px;
     font-weight: bold;
     height: 0;
@@ -289,7 +323,7 @@ label:hover:before {
 /* radio aspect */
 [type="checkbox"]:not(:checked) + label:before,
 [type="checkbox"]:checked + label:before {
-    border-radius: 3px;
+    border-radius: 20px;
 }
 
 [type="radio"]:not(:checked) + label:before,
@@ -325,8 +359,28 @@ label:hover:before {
 
 /* myStyle - start */
 
+.table {
+    margin-top: 40px;
+    margin-left: 150px;
+    width: 45%;
+    display: table;
+    table-layout: fixed;
+}
+
+.td {
+    display: table-cell;
+    width: 2%;
+}
+
+h2 {
+    font-size: 30px;
+    margin-top: 50px;
+    margin-left: 220px;
+}
+
 a {
     cursor: pointer;
+    text-decoration: none;
 }
 
 .clients.container {

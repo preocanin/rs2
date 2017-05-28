@@ -11,14 +11,11 @@
         var vm = this;
         vm.data = {};  //objekat ima counts i users
         
-        
-        (function clients(){
-            UserService.GetAll()
+        UserService.GetAll()
                 .then(function(response) {
                     vm.data = response;
                 });
-        })();
-
+        
 //        vm.users = [
 //            {
 //                "id": 1,

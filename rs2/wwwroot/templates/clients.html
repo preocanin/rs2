@@ -9,9 +9,9 @@
                 <th>korisnicko ime</th>
             </thead>
             <tbody>
-                <tr ng-repeat="row in vm.data">
-                    <td><a href="#/clients/{{row.users.userid}}">{{row.users.userid}}</a></td>
-                    <td>{{row.users.username}}</td>
+                <tr ng-repeat="user in vm.data.users">
+                    <td><a href="#!/clients/{{user.userId}}">{{user.userId}}</a></td>
+                    <td>{{user.username}}</td>
                 </tr>
             </tbody>
         </table>
