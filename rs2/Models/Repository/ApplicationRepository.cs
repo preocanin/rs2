@@ -58,7 +58,7 @@ namespace rs2.Models.Repository
             return users.Skip(offset).Take(limit).ToArray();
         }
 
-        public UserGetModel GetUserById(int id)
+        public UserGetModel GetUserModelById(int id)
         {
             var users = from u in Context.Users
                         where u.UserId == id
@@ -67,6 +67,14 @@ namespace rs2.Models.Repository
                             UserId = u.UserId,
                             Username = u.Username
                         };
+            return users == null ? null : users.Count() == 0? null : users.First();
+        }
+
+        public User GetUserById(int id)
+        {
+            var users = from u in Context.Users
+                        where u.UserId == id
+                        select u;
             return users == null ? null : users.Count() == 0? null : users.First();
         }
 
@@ -81,6 +89,57 @@ namespace rs2.Models.Repository
             else
             {
                 Context.Users.RemoveRange(users);
+                Context.SaveChanges();
+                return 200;
+            }
+        }
+
+        public void AddRecord(User user, RecordPostModel recordPost, out int statusCode, out string msg)
+        {
+            Record newRecord = recordPost.toRecord(user);
+            Context.Records.Add(newRecord);
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch(Exception) 
+            {
+                statusCode = 401;
+                msg = "Record already exists";
+                return;
+            }
+
+            statusCode = 200;
+            msg = "ok";
+        }
+
+        public RecordPostModel[] GetAllRecords(int ownerId, int limit, int offset, out int count)
+        {
+            var records = from r in Context.Records
+                          where r.User.UserId == ownerId
+                          select new RecordPostModel()
+                          {
+                              Bx = r.BeforeX,
+                              By = r.BeforeY,
+                              Ax = r.AfterX,
+                              Ay = r.AfterY
+                          };
+
+            count = records.Count();
+            return records.Skip(offset).Take(limit).ToArray();
+        }
+
+        public int DeleteRecords(int ownerId, IEnumerable<int> ids)
+        {
+            var records = from r in Context.Records
+                          where r.User.UserId == ownerId &&
+                                ids.Contains(r.RecordId)
+                          select r;
+            if (records == null || records.Count() == 0)
+                return 404;
+            else
+            {
+                Context.Records.RemoveRange(records);
                 Context.SaveChanges();
                 return 200;
             }

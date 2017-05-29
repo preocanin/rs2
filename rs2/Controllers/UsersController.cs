@@ -30,6 +30,7 @@ namespace rs2.Controllers
                 var users = AppRepo.GetAllUsers(offset, limit, search, out count);
                 return Json(new { Count = count, Users = users });
             }
+            Response.StatusCode = 401;
             return Json(new { Msg = "Unauthorized" });
         }
 
@@ -41,7 +42,7 @@ namespace rs2.Controllers
             if (AuthRepo.IsAuthenticated(Role.Admin)) {
                 if (id.HasValue)
                 {
-                    var user = AppRepo.GetUserById(id.Value);
+                    var user = AppRepo.GetUserModelById(id.Value);
                     if (user != null)
                         return Json(user);
                     else
