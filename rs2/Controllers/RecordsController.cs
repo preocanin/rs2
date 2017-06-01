@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 
 using rs2.Models;
 using rs2.Models.Database;
 using rs2.Models.Repository;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.IO;
 
 namespace rs2.Controllers
 {
@@ -12,6 +16,8 @@ namespace rs2.Controllers
     {
         private IApplicationRepostitory AppRepo { get; set; }
         private IAuthRepository AuthRepo { get; set; }
+
+        private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
         public RecordsController(IApplicationRepostitory appRepo, IAuthRepository authRepo)
         {
@@ -34,14 +40,6 @@ namespace rs2.Controllers
             return Json(new { Msg = "Unauthorized" });
         }
 
-        // GET: api/records/5
-        //[HttpGet("{id}")]
-        //public Record Get(int id)
-        //{
-        //    //Jedan record for CURRENT_USER
-        //    return "value";
-        //}
-
         // POST: api/records
         [HttpPost]
         public JsonResult Post([FromBody]RecordPostModel recordModel)
@@ -58,6 +56,65 @@ namespace rs2.Controllers
             }
             Response.StatusCode = 401;
             return Json(new { Msg = "Unauthorized" });
+        }
+
+        // POST: api/records/file
+        [HttpPost("file")]
+        public void Post(IFormFile file)
+        {
+            if (AuthRepo.IsAuthenticated())
+            {
+
+                if (file != null && file.ContentType == XlsxContentType)
+                {
+                    var filename = Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + ".xlsx";
+                    var filePath = Path.Combine(Path.GetTempPath(), filename);
+
+                    if (file.Length > 0)
+                    {
+                        using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
+                        {
+                            file.CopyTo(stream);
+                            stream.Flush();
+                        }
+                    }
+
+                    FileStream streamNew = null;
+                    try
+                    {
+                        streamNew = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
+                    }
+                    catch (Exception)
+                    {
+                        Response.StatusCode = 500;
+                        return;
+                    }
+
+                    ExcelPackage excelFile = new ExcelPackage(streamNew);
+                    ExcelWorksheet worksheet = excelFile.Workbook.Worksheets[1];
+
+                    if (!AppRepo.AddRecordsFromExcel(AppRepo.GetUserById(AuthRepo.CurrentUserId), worksheet))
+                        Response.StatusCode = 500;
+
+                    return; 
+                }
+            }
+
+            Response.StatusCode = 401;
+        }
+
+        // GET: api/records/file
+        [HttpGet("file")]
+        public IActionResult Get()
+        {
+            if(AuthRepo.IsAuthenticated())
+            {
+                var package = AppRepo.GetAllRecordsAsExcel(AuthRepo.CurrentUserId);
+                return File(package.GetAsByteArray(), XlsxContentType, "records.xlsx");
+            }
+
+            Response.StatusCode = 401;
+            return Json(new { Msg = "Unauthorized " });
         }
 
         // PUT: api/records/5

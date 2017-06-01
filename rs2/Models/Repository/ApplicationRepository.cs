@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.Linq;
 using System.Collections.Generic;
+using OfficeOpenXml;
 
 using Jose;
 using rs2.Models.Database;
@@ -10,7 +11,6 @@ namespace rs2.Models.Repository
 {
     public class ApplicationRepository : IApplicationRepostitory
     {
-
         public ApplicationRepository(AppDbContext context)
         {
             Context = context;
@@ -94,9 +94,9 @@ namespace rs2.Models.Repository
             }
         }
 
-        public void AddRecord(User user, RecordPostModel recordPost, out int statusCode, out string msg)
+        public void AddRecord(User owner, RecordPostModel recordPost, out int statusCode, out string msg)
         {
-            Record newRecord = recordPost.toRecord(user);
+            Record newRecord = recordPost.toRecord(owner);
             Context.Records.Add(newRecord);
             try
             {
@@ -111,6 +111,63 @@ namespace rs2.Models.Repository
 
             statusCode = 200;
             msg = "ok";
+        }
+
+        public bool AddRecordsFromExcel(User owner, ExcelWorksheet worksheet) {
+            if (worksheet.Dimension.End.Row > 0 
+                && worksheet.Dimension.End.Column > 0
+                && worksheet.Dimension.End.Column == 4
+                )
+            {
+                int rstart = worksheet.Dimension.Start.Row;
+                if(TestFirstRowForNames(worksheet))
+                {
+                    return InsertToDatabase(owner, worksheet, rstart + 1);
+                }
+                else
+                {
+                    return InsertToDatabase(owner, worksheet, rstart);
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public ExcelPackage GetAllRecordsAsExcel(int ownerId)
+        {
+            User owner = GetUserById(ownerId);
+            ExcelPackage package = new ExcelPackage();
+            package.Workbook.Properties.Title = "Records";
+            package.Workbook.Properties.Author = owner.Username;
+
+            var worksheet = package.Workbook.Worksheets.Add("Records");
+
+            //First add headers
+            worksheet.Cells[1, 1].Value = "Bx";
+            worksheet.Cells[1, 2].Value = "By";
+            worksheet.Cells[1, 3].Value = "Ax";
+            worksheet.Cells[1, 4].Value = "Ay";
+
+            var records = from r in Context.Records
+                          where r.User.UserId == ownerId
+                          select r;
+
+            if(records != null)
+            {
+                int i = 2;
+                foreach(var r in records)
+                {
+                    worksheet.Cells[i, 1].Value = r.BeforeX;
+                    worksheet.Cells[i, 2].Value = r.BeforeY;
+                    worksheet.Cells[i, 3].Value = r.AfterX;
+                    worksheet.Cells[i, 4].Value = r.AfterY;
+                    i++;
+                }
+            }
+
+            return package;
         }
 
         public RecordPostModel[] GetAllRecords(int ownerId, int limit, int offset, out int count)
@@ -227,6 +284,59 @@ namespace rs2.Models.Repository
                     };
                     //"zAH2zpxtTXyqhCGS"
             }
+        }
+
+        /*
+         * Check if first row contatins names ax, ay, bx, by
+         */
+        private bool TestFirstRowForNames(ExcelWorksheet worksheet)
+        {
+            List<string> colNames = new List<string>(4)
+            {
+                "ax", "Ax", "aX", "AX",
+                "bx", "Bx", "bX", "BX",
+                "ay", "Ay", "aY", "AY",
+                "by", "By", "bY", "BY"
+            };
+
+            int firstRow = worksheet.Dimension.Start.Row;
+            int start = worksheet.Dimension.Start.Column;
+            if(colNames.Contains(worksheet.Cells[firstRow, start].Value.ToString()) &&
+                colNames.Contains(worksheet.Cells[firstRow, start + 1].Value.ToString()) &&
+                colNames.Contains(worksheet.Cells[firstRow, start + 2].Value.ToString()) &&
+                colNames.Contains(worksheet.Cells[firstRow, start + 3].Value.ToString()))
+            {
+                return true; 
+            }
+            return false;
+        }
+
+        private bool InsertToDatabase(User owner, ExcelWorksheet worksheet, int rstart)
+        {
+            for(int i = rstart;
+                i <= worksheet.Dimension.End.Row; 
+                ++i)
+            {
+                int cstart = worksheet.Dimension.Start.Column;
+                try
+                {
+                    Context.Records.Add(new Record()
+                    {
+                        BeforeX = (float)Convert.ToDouble(worksheet.Cells[i, cstart].Value.ToString()),
+                        BeforeY = (float)Convert.ToDouble(worksheet.Cells[i, cstart + 1].Value.ToString()),
+                        AfterX = (float)Convert.ToDouble(worksheet.Cells[i, cstart + 2].Value.ToString()),
+                        AfterY = (float)Convert.ToDouble(worksheet.Cells[i, cstart + 3].Value.ToString()),
+                        User = owner
+                    });
+                }
+                catch(Exception)
+                {
+                    return false;
+                }
+            }
+
+            Context.SaveChanges();
+            return true;
         }
     }
 }
