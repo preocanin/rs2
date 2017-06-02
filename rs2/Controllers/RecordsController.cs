@@ -117,11 +117,30 @@ namespace rs2.Controllers
             return Json(new { Msg = "Unauthorized " });
         }
 
-        // PUT: api/records/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // PUT: api/records
+        [HttpPut]
+        public void Put(int id, [FromBody]IEnumerable<RecordPutModel> records)
         {
-            //Change record ADMIN and CURRENT_USER
+            if(AuthRepo.IsAuthenticated())
+            {
+                Response.StatusCode = AppRepo.ChangeRecords(AuthRepo.CurrentUserId, records);                  
+                return;
+            }
+
+            Response.StatusCode = 401;
+        }
+
+        // DELETE: api/records/all
+        [HttpDelete("all")]
+        public void Delete()
+        {
+            if(AuthRepo.IsAuthenticated())
+            {
+                Response.StatusCode = AppRepo.DeleteAllRecords(AuthRepo.CurrentUserId);
+                return;
+            }
+
+            Response.StatusCode = 401;
         }
 
         // DELETE: api/records/5

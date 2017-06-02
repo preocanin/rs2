@@ -75,9 +75,45 @@ namespace rs2.Controllers
 
         // PUT api/users/5
         [HttpPut("{id:int}")]
-        public void Put([FromRoute]int? id, [FromBody]string value)
+        public void Put([FromRoute]int? id, [FromBody]ChangePasswordModel changePass)
         {
-            //Change pasword ALLUSERS
+            if (id.HasValue && id.Value == -1)
+            {
+                if (AuthRepo.IsAuthenticated())
+                {
+                    if(changePass.OldPassword != null && changePass.OldPassword.Length > 0 &&
+                       changePass.NewPassword != null && changePass.NewPassword.Length > 0)
+                    {
+                        Response.StatusCode = AppRepo.ChangePassword(AuthRepo.CurrentUserId,
+                                        changePass.OldPassword, changePass.NewPassword);
+                       
+                        return;
+                    }
+                    else
+                    {
+                        Response.StatusCode = 401;
+                        return;
+                    }
+                }
+            }
+            else if(id.HasValue && id.Value != -1)
+            {
+                if (AuthRepo.IsAuthenticated(Role.Admin))
+                {
+                    if (changePass.NewPassword != null & changePass.NewPassword.Length > 0)
+                    {
+                        Response.StatusCode = AppRepo.ChangePassword(id.Value, changePass.NewPassword);
+                        return;
+                    }
+                }
+                else
+                {
+                    Response.StatusCode = 401;
+                    return;
+                }
+            }
+
+            Response.StatusCode = 422;
         }
 
         // Admin only

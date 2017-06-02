@@ -33,7 +33,7 @@ namespace rs2.Models.Repository
             }
             catch (Exception)
             {
-                statusCode = 422;
+                statusCode = 400;
                 msg = "User already exists";
                 return;
             }
@@ -78,6 +78,48 @@ namespace rs2.Models.Repository
             return users == null ? null : users.Count() == 0? null : users.First();
         }
 
+        public int ChangePassword(int userId, string newPassword)
+        {
+            User user = GetUserById(userId);
+            if(user != null)
+            {
+                byte[] salt = Convert.FromBase64String(user.Salt);
+                user.Password = HashPassword(newPassword, salt);
+
+                try
+                {
+                    Context.SaveChanges();
+                    return 200;
+                }
+                catch (Exception)
+                {
+                    return 500;
+                }
+            }
+            return 500;
+        }
+
+        public int ChangePassword(int userId, string oldPassword, string newPassword)
+        {
+            User curr_user = GetUserById(userId);
+            byte[] salt = Convert.FromBase64String(curr_user.Salt);
+            oldPassword = HashPassword(oldPassword, salt);   
+            if(oldPassword == curr_user.Password)
+            {
+                curr_user.Password = HashPassword(newPassword, salt);
+                try
+                {
+                    Context.SaveChanges();
+                    return 200;
+                }
+                catch(Exception)
+                {
+                    return 500;
+                }
+            }
+            return 401;
+        }
+
         public int DeleteUsers(IEnumerable<int> ids)
         {
             var users = from u in Context.Users
@@ -85,7 +127,7 @@ namespace rs2.Models.Repository
                               ids.Contains(u.UserId)
                         select u;
             if (users == null || users.Count() == 0)
-                return 404;
+                return 400;
             else
             {
                 Context.Users.RemoveRange(users);
@@ -104,7 +146,7 @@ namespace rs2.Models.Repository
             }
             catch(Exception) 
             {
-                statusCode = 401;
+                statusCode = 400;
                 msg = "Record already exists";
                 return;
             }
@@ -170,12 +212,38 @@ namespace rs2.Models.Repository
             return package;
         }
 
-        public RecordPostModel[] GetAllRecords(int ownerId, int limit, int offset, out int count)
+        public int ChangeRecords(int ownerId, IEnumerable<RecordPutModel> records)
+        {
+            var userRecords = from r in Context.Records
+                              let recordIds = records.Select(x => x.RecordId)
+                              where r.User.UserId == ownerId &&
+                                    recordIds.Contains(r.RecordId)
+                              select new { Record = r, NewData = records.Single(x => x.RecordId == r.RecordId) };
+
+            if (userRecords == null || userRecords.Count() == 0)
+                return 403;
+            else
+            {
+                foreach(var pair in userRecords)
+                {
+                    pair.Record.BeforeX = pair.NewData.Bx;
+                    pair.Record.BeforeY = pair.NewData.By;
+                    pair.Record.AfterX = pair.NewData.Ax;
+                    pair.Record.AfterY = pair.NewData.Ay;
+                }
+
+                Context.SaveChanges();
+                return 200;
+            }
+        }
+
+        public RecordPutModel[] GetAllRecords(int ownerId, int limit, int offset, out int count)
         {
             var records = from r in Context.Records
                           where r.User.UserId == ownerId
-                          select new RecordPostModel()
+                          select new RecordPutModel()
                           {
+                              RecordId = r.RecordId,
                               Bx = r.BeforeX,
                               By = r.BeforeY,
                               Ax = r.AfterX,
@@ -193,7 +261,7 @@ namespace rs2.Models.Repository
                                 ids.Contains(r.RecordId)
                           select r;
             if (records == null || records.Count() == 0)
-                return 404;
+                return 403;
             else
             {
                 Context.Records.RemoveRange(records);
@@ -202,9 +270,20 @@ namespace rs2.Models.Repository
             }
         }
 
-        //TODO: AllRecords()
-
-        //TODO: Record(id)
+        public int DeleteAllRecords(int ownerId)
+        {
+            var records = from r in Context.Records
+                          where r.User.UserId == ownerId
+                          select r;
+            if (records == null || records.Count() == 0)
+                return 403;
+            else
+            {
+                Context.Records.RemoveRange(records);
+                Context.SaveChanges();
+                return 200;
+            }
+        }
 
         public string IsValidLogin(AuthLoginModel model, out User outUser, out bool status)
         {
