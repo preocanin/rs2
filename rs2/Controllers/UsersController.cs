@@ -30,6 +30,7 @@ namespace rs2.Controllers
                 var users = AppRepo.GetAllUsers(offset, limit, search, out count);
                 return Json(new { Count = count, Users = users });
             }
+            Response.StatusCode = 401;
             return Json(new { Msg = "Unauthorized" });
         }
 
@@ -41,7 +42,7 @@ namespace rs2.Controllers
             if (AuthRepo.IsAuthenticated(Role.Admin)) {
                 if (id.HasValue)
                 {
-                    var user = AppRepo.GetUserById(id.Value);
+                    var user = AppRepo.GetUserModelById(id.Value);
                     if (user != null)
                         return Json(user);
                     else
@@ -74,9 +75,45 @@ namespace rs2.Controllers
 
         // PUT api/users/5
         [HttpPut("{id:int}")]
-        public void Put([FromRoute]int? id, [FromBody]string value)
+        public void Put([FromRoute]int? id, [FromBody]ChangePasswordModel changePass)
         {
-            //Change pasword ALLUSERS
+            if (id.HasValue && id.Value == -1)
+            {
+                if (AuthRepo.IsAuthenticated())
+                {
+                    if(changePass.OldPassword != null && changePass.OldPassword.Length > 0 &&
+                       changePass.NewPassword != null && changePass.NewPassword.Length > 0)
+                    {
+                        Response.StatusCode = AppRepo.ChangePassword(AuthRepo.CurrentUserId,
+                                        changePass.OldPassword, changePass.NewPassword);
+                       
+                        return;
+                    }
+                    else
+                    {
+                        Response.StatusCode = 401;
+                        return;
+                    }
+                }
+            }
+            else if(id.HasValue && id.Value != -1)
+            {
+                if (AuthRepo.IsAuthenticated(Role.Admin))
+                {
+                    if (changePass.NewPassword != null & changePass.NewPassword.Length > 0)
+                    {
+                        Response.StatusCode = AppRepo.ChangePassword(id.Value, changePass.NewPassword);
+                        return;
+                    }
+                }
+                else
+                {
+                    Response.StatusCode = 401;
+                    return;
+                }
+            }
+
+            Response.StatusCode = 422;
         }
 
         // Admin only

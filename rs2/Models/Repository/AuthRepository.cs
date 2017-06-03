@@ -49,9 +49,15 @@ namespace rs2.Models.Repository
                 return false;
         }
 
-        public int CurrentUserId { get; set; } = -1;
+        public int CurrentUserId {
+            get;
+            private set;
+        } = -1;
 
-        public Role CurrentUserRole { get; set; }
+        public Role CurrentUserRole {
+            get;
+            private set;
+        }
 
         private bool IsValidToken { get; set; } = false;
     }
