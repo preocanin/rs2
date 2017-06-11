@@ -3,18 +3,12 @@
 
     /*global angular */
     angular
-        .module('app', ['ngRoute', 'ngCookies'])
+        .module('app', ['ngRoute', 'ngCookies', 'toastr', 'ui.grid'])
         .config(config)
         .run(run);
     
     
     config.$inject = ['$routeProvider', '$locationProvider'];
-    
-//    app.controller('homeCtrl', homeCtrl);
-//
-//    function homeCtrl(){
-//        
-//    }
 
     function config($routeProvider, $locationProvider) {
         

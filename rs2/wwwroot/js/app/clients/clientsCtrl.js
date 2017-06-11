@@ -15,17 +15,6 @@
                 .then(function(response) {
                     vm.data = response;
                 });
-        
-//        vm.users = [
-//            {
-//                "id": 1,
-//                "username": 'mika'
-//            },
-//            {
-//                "id": 2,
-//                "username": 'peraMali'
-//            }
-//        ];
     }
     
 })();

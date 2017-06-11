@@ -16,6 +16,7 @@
     <Content Include="wwwroot\templates\register.html" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="angular-toastr" Version="2.1.1" />
     <PackageReference Include="EPPlus.Core" Version="1.4.0" />
     <PackageReference Include="jose-jwt" Version="2.3.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -26,6 +27,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+    <PackageReference Include="toastr" Version="2.1.1" />
     <PackageReference Include="WebMarkupMin.AspNetCore1" Version="2.4.0" />
   </ItemGroup>
   <ItemGroup>

@@ -422,4 +422,26 @@ a {
 .form-control {
     color: #6F8B95;
 }
+
+.btn-group {
+    padding: 20px;
+}
+
+.form-control {
+    border-radius: 4px;
+}
+
+.input-group {
+    padding: 10px;
+    margin-left: 50px;
+    width: 50%;
+}
+.btn-default {
+    margin-left: 20px;
+}
+
+.myGrid {
+    width: 500px;
+  height: 250px;
+}
 /* myStyle - end */
