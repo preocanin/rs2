@@ -50,8 +50,8 @@
         vm.dodajExcel = function () {
             var fs = require('fs');
             var request = require('request'); // For sending requests
-            var tmp = require('tmp');
-            var XLSX = require('xlsx'); // Conversation berween formats .xlsx, .xls and other formats
+            //var tmp = require('tmp');
+            //var XLSX = require('xlsx'); // Conversation berween formats .xlsx, .xls and other formats
 
             // Making temporary file usedi
             // Use if conversation on client side is supported
