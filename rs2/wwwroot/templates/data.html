@@ -33,48 +33,7 @@
             <button class="btn btn-default" ng-click="vm.dodajExcel()">Dodaj excel fajl</button>
         </div>
         <div ng-show="vm.prikaz">
-            <div ng-controller="MainCtrl">
-                <div ui-grid="{ data: vm.records }" class="myGrid"></div>
-            </div>
-
-            <!--<table class="table table-hover">
-                <thead>
-                    <th>
-                        recordId
-                    </th>
-                    <th>
-                        Pre X
-                    </th>
-                    <th>
-                        Pre Y
-                    </th>
-                    <th>
-                        Posle X
-                    </th>
-                    <th>
-                        Posle Y
-                    </th>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="record in vm.records">
-                        <td>
-                            {{record.recordId}}
-                        </td>
-                        <td>
-                            {{record.bx}}
-                        </td>
-                        <td>
-                            {{record.by}}
-                        </td>
-                        <td>
-                            {{record.ax}}
-                        </td>
-                        <td>
-                            {{record.ay}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>-->
+            <div id="myGrid" style="height: 100%;" class="ag-fresh"></div>
             <button class="btn btn-default" ng-click="vm.obrisiRed()">Obrisi red</button>
             <button class="btn btn-default" ng-click="vm.obrisiSve()">Obrisi sve</button>
         </div>

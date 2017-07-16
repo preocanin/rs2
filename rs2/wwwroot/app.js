@@ -3,7 +3,7 @@
 
     /*global angular */
     angular
-        .module('app', ['ngRoute', 'ngCookies', 'toastr', 'ui.grid'])
+        .module('app', ['ngRoute', 'ngCookies', 'toastr'])
         .config(config)
         .run(run);
     

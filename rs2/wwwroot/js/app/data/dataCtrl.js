@@ -14,8 +14,40 @@
         vm.prikaz = true;
         vm.podatak = {};
         vm.records = [];
+        vm.offset = 1;
+
+        var gridDiv = document.querySelector('#myGrid');
+        var myColDefs = [
+            { headerName: "Make", field: "make" },
+            { headerName: "Model", field: "model" },
+            { headerName: "Price", field: "price" }
+        ];
+        var myRowData = [
+            { make: "Toyota", model: "Celica", price: 35000 },
+            { make: "Ford", model: "Mondeo", price: 32000 },
+            { make: "Porsche", model: "Boxter", price: 72000 }
+        ];
 
 
+        var gridOptions = {
+
+            // PROPERTIES - object properties, myRowData and myColDefs are created somewhere in your application
+            rowData: myRowData,
+            columnDefs: myColDefs,
+
+            // EVENTS - add event callback handlers
+            onRowClicked: function (event) { console.log('a row was clicked'); },
+            onColumnResized: function (event) { console.log('a column was resized'); },
+            onGridReady: function(event) {
+                //setup first yourColumnDefs and yourGridData
+
+                //now use the api to set the columnDefs and rowData
+                this.columnDefs = myColDefs;
+                this.rowData = myRowData;
+            }
+        }
+
+        new agGrid.Grid(gridDiv, gridOptions);
 
         vm.kadUnos = function () {
             vm.unos = true;
@@ -26,11 +58,31 @@
             vm.unos = false;
             vm.prikaz = true;
 
-            RecordService.GetAll()
+            RecordService.GetAll(vm.offset - 1)
                 .then(function (response) {
+                    vm.count = response.count;
                     vm.records = response.records;
+
+
+                    /*var columnDefs = [
+                        { headerName: "ID", field: "recordId" },
+                        { headerName: "Pre X", field: "bx" },
+                        { headerName: "Pre Y", field: "by" },
+                        { headerName: "Posle X", field: "ax" },
+                        { headerName: "Posle Y", field: "ay" },
+                    ];
+
+                    var rowData = [{ recordId: 1, bx: 2, by: 4, ax: 4, ay: 5 }];
+
+                    vm.gridOptions = {
+                        columnDefs: columnDefs,
+                        rowData: rowData
+                    };*/
+
                 });
+
         };
+
 
         vm.kadPrikaz();
 
@@ -47,47 +99,6 @@
             }
         };
 
-        vm.dodajExcel = function () {
-            var fs = require('fs');
-            var request = require('request'); // For sending requests
-            //var tmp = require('tmp');
-            //var XLSX = require('xlsx'); // Conversation berween formats .xlsx, .xls and other formats
-
-            // Making temporary file usedi
-            // Use if conversation on client side is supported
-            /*
-            var tmpPath = tmp.tmpNameSync({prefix: "tmp", postfix: ".xlsx"});
-            var workbook = XLSX.readFile('./rezultati.xls');
-            XLSX.writeFile(workbook, 'convert.xlsx');
-            */
-
-            // Sending a excel file to server
-            var url = "http://localhost:5000/api/records/file";
-            var form_data = { file: fs.createReadStream('./rezultati.xlsx') };
-            var r = request.defaults({ jar: true });
-            var jar = r.jar();
-            
-            // Use cookies only from Node.js 
-            var cookie = r.cookie("access_token=token_string");
-            jar.setCookie(cookie, url);
-            
-            r.post({ url: url, jar: jar, formData: form_data });
-            
-
-            // 
-            /*
-            var url = "http://localhost:5000/api/records/file";
-            var r = request.defaults({ jar: true });
-            var jar = r.jar();
-            
-            // Use cookies only from Node.js
-            var cookie = r.cookie("access_token=token_string");
-            jar.setCookie(cookie, url);
-            
-            r.get({ url: url, jar: jar }).pipe(fs.createWriteStream('./records.xlsx'))
-            */
-        };
-
         var validan = function (data) {
 
             if (data.Bx && data.By && data.Ax && data.Ay) {
@@ -98,15 +109,15 @@
         };
 
 
-        vm.obrisiSve = function() {
+        vm.obrisiSve = function () {
             RecordService.DeleteAllRecords()
-                .then(function(response) {
+                .then(function (response) {
                     console.log(response);
                 });
         };
 
-        vm.obrisiRed = function() {
-            
+        vm.obrisiRed = function () {
+
         };
 
     }
