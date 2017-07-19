@@ -2,8 +2,11 @@
     'use strict';
 
     /*global angular */
+
+    agGrid.initialiseAgGridWithAngular1(angular);
+
     angular
-        .module('app', ['ngRoute', 'ngCookies', 'toastr', 'ui.grid'])
+        .module('app', ['ngRoute', 'ngCookies', 'toastr', 'agGrid'])
         .config(config)
         .run(run);
     

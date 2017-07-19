@@ -19,8 +19,8 @@
  
         return service;
  
-        function GetAll() {
-            return $http.get('http://localhost:5000/api/records').then(handleSuccess, handleError('Error getting all records'));
+        function GetAll(offset, limit) {
+            return $http.get('http://localhost:5000/api/records?offset=' + offset + '&limit=' + limit).then(handleSuccess, handleError('Error getting all records'));
         }
  
         function AddRecord(record) {
