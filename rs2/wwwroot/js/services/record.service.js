@@ -35,8 +35,8 @@
             return $http.get('http://localhost:5000/api/records/file').then(handleSuccess, handleError('Error getting records from file'));
         }
  
-        function UpdateRecord(userId, records) {
-            return $http.put('http://localhost:5000/api/records/' + userId, records).then(handleSuccess, handleError('Error updating records'));
+        function UpdateRecord(id, records) {
+            return $http.put('http://localhost:5000/api/records?id=' + id, records).then(handleSuccess, handleError('Error updating records'));
         }
  
         function DeleteRecordsByUser(userId, records) {

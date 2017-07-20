@@ -29,12 +29,13 @@
                 <span class="input-group-addon" id="posleY">Posle Y</span>
                 <input type="number" class="form-control" placeholder="" ng-model="vm.podatak.Ay">
             </div>
-            <button class="btn btn-default" ng-click="vm.dodaj()">Dodaj</button>
+            <button class="btn btn-default" ng-click="vm.sacuvaj()">Sacuvaj</button>
             <button class="btn btn-default" ng-click="vm.dodajExcel()">Dodaj excel fajl</button>
         </div>
         <div ng-show="vm.prikaz">
-            <div ag-grid="vm.gridOptions" class="ag-fresh" style="width:100%;height: 200px"></div>
-            <button class="btn btn-default" ng-click="vm.obrisiRed()">Obrisi red</button>
+            <div ag-grid="vm.gridOptions" class="ag-fresh" style="height: 200px"></div>
+            <br>
+            <button class="btn btn-default" ng-click="vm.izmeniRed()">Izmeni red</button>
             <button class="btn btn-default" ng-click="vm.obrisiSve()">Obrisi sve</button>
         </div>
     </div>

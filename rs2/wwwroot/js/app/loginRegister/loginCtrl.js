@@ -20,6 +20,7 @@
         function login() {
             vm.dataLoading = true;
             AuthenticationService.Login(vm.email, vm.password, function (response) {
+                $rootScope.userId = response.data.userId;
                 if (!response.error) {
                     AuthenticationService.SetCredentials(vm.email, vm.password);
                     if(vm.email === 'admin@gmail.com' && vm.password === 'admin'){

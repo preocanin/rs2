@@ -12,6 +12,7 @@
         var vm = this;
         vm.unos = false;
         vm.prikaz = true;
+        vm.izmena = false;
         vm.podatak = {};
         vm.records = [];
         vm.offset = 1;
@@ -33,13 +34,14 @@
             // tell grid we want virtual row model type
             rowModelType: 'infinite',
             // how big each page in our page cache will be, default is 100
-            paginationPageSize: 10,
+            paginationPageSize: 100,
             // how many extra blank rows to display to the user at the end of the dataset,
             // which sets the vertical scroll and then allows the grid to request viewing more rows of data.
             // default is 1, ie show 1 row.
             cacheOverflowSize: 2,
             // how many server side requests to send at a time. if user is scrolling lots, then the requests
-            // are throttled downs
+            // are throttled down
+            maxConcurrentDatasourceRequests: 2,
             // how many rows to initially show in the grid. having 1 shows a blank row, so it looks like
             // the grid is loading from the users perspective (as we have a spinner in the first col)
             infiniteInitialRowCount: 1,
@@ -47,25 +49,24 @@
             // pages are never purged. this should be set for large data to stop your browser from getting
             // full of data
             maxBlocksInCache: 2,
-            // PROPERTIES - object properties, myRowData and myColDefs are created somewhere in your application
             onGridReady: function () {
                 vm.kadPrikaz();
             }
-        }
+        };
 
         vm.kadUnos = function () {
             vm.unos = true;
             vm.prikaz = false;
         };
 
-        function setRowData(allOfTheData) {
+        function setRowData() {
             var dataSource = {
                 rowCount: null, // behave as infinite scroll
                 getRows: function (params) {
                     console.log('asking for ' + params.startRow + ' to ' + params.endRow);
                     // At this point in your code, you would call the server, using $http if in AngularJS 1.x.
                     // To make the demo look real, wait for 500ms before returning
-                    RecordService.GetAll(params.startRow, 10)
+                    RecordService.GetAll(params.startRow, 100)
                         .then(function (response) {
                             vm.count = response.count;
                             vm.records = response.records;
@@ -76,7 +77,7 @@
                             var rowsThisPage = vm.records.slice(params.startRow, params.endRow);
                             // if on or after the last page, work out the last row.
                             var lastRow = -1;
-                            if (vm.records.length <= params.endRow) {
+                            if (vm.count <= params.endRow) {
                                 lastRow = vm.records.length;
                             }
                             // call the success callback
@@ -87,6 +88,7 @@
 
             vm.gridOptions.api.setDatasource(dataSource);
             vm.gridOptions.api.sizeColumnsToFit();
+
         }
 
         vm.kadPrikaz = function () {
@@ -94,17 +96,27 @@
             vm.prikaz = true;
             vm.offset = vm.gridOptions.api.paginationGetRowCount() ? vm.gridOptions.api.paginationGetRowCount() - 1 : 0;
 
+
             setRowData(vm.records);
 
         };
 
-        vm.dodaj = function () {
+        vm.sacuvaj = function () {
             if (validan(vm.podatak)) {
-                RecordService.AddRecord(vm.podatak)
-                    .then(function (response) {
-                        console.log(response);
-                        toastr.success('Podatak je dodat');
+                if (vm.izmena) {
+                    RecordService.UpdateRecord($rootScope.userId, vm.podatak).then(function(response) {
+
                     });
+                    vm.izmena = false;
+                }
+                else {
+                    RecordService.AddRecord(vm.podatak)
+                        .then(function (response) {
+                            console.log(response);
+                            toastr.success('Podatak je dodat');
+                        });
+                }
+
             }
             else {
                 toastr.error('Niste popunili sva polja');
@@ -128,10 +140,17 @@
                 });
         };
 
-        vm.obrisiRed = function () {
-
+        vm.izmeniRed = function () {
+            vm.izmena = true;
+            var rows = vm.gridOptions.api.getSelectedRows();
+            vm.unos = true;
+            vm.prikaz = false;
+            vm.podatak.Bx = rows[0].bx;
+            vm.podatak.By = rows[0].by;
+            vm.podatak.Ax = rows[0].ax;
+            vm.podatak.Ay = rows[0].ay;
+            vm.podatak.RecordId = rows[0].recordId;
         };
-
     }
 
 })();
