@@ -151,6 +151,10 @@
             vm.podatak.Ay = rows[0].ay;
             vm.podatak.RecordId = rows[0].recordId;
         };
+
+        vm.download = function () {
+            document.getElementById("downloadFile").submit();
+        };
     }
 
 })();
