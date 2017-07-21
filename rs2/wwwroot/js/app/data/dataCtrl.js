@@ -4,9 +4,9 @@
         .module('app')
         .controller('dataCtrl', dataCtrl);
 
-    dataCtrl.$inject = ['RecordService', '$location', '$rootScope', 'toastr', '$scope'];
+    dataCtrl.$inject = ['RecordService', '$location', '$rootScope', 'toastr', '$scope', '$http'];
 
-    function dataCtrl(RecordService, $location, $rootScope, toastr, $scope) {
+    function dataCtrl(RecordService, $location, $rootScope, toastr, $scope, $http) {
         "use strict";
 
         var vm = this;
@@ -154,6 +154,29 @@
 
         vm.download = function () {
             document.getElementById("downloadFile").submit();
+        };
+
+        vm.dodajExcel = function () {
+            var input_file = document.getElementById("file");
+            input_file.addEventListener("change", function () {
+                if (this.files.length > 0) {
+                    var form = new FormData();
+                    form.append("file", this.files[0]);
+                    $http({
+                        method: "POST",
+                        url: "api/records/file",
+                        data: form,
+                        headers: {
+                            "Content-Type": undefined
+                        }
+                    }).success(function () {
+                        console.log("Success");
+                    }).error(function () {
+                        console.log("Error");
+                    });
+                }
+            });
+            input_file.click();
         };
     }
 

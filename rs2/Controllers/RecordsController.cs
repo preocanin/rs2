@@ -65,7 +65,7 @@ namespace rs2.Controllers
             if (AuthRepo.IsAuthenticated())
             {
 
-                if (file != null && file.ContentType == XlsxContentType)
+                if (file != null && file.ContentType == "application/octet-stream" && file.FileName.Contains(".xlsx"))
                 {
                     var filename = Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + ".xlsx";
                     var filePath = Path.Combine(Path.GetTempPath(), filename);
@@ -98,6 +98,8 @@ namespace rs2.Controllers
 
                     return; 
                 }
+                Response.StatusCode = 415;
+                return;
             }
 
             Response.StatusCode = 401;

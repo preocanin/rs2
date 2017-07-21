@@ -31,6 +31,7 @@
             </div>
             <button class="btn btn-default" ng-click="vm.sacuvaj()">Sacuvaj</button>
             <button class="btn btn-default" ng-click="vm.dodajExcel()">Dodaj excel fajl</button>
+            <input id="file" type="file" accept=".xlsx" style="display:none" />
         </div>
         <div ng-show="vm.prikaz">
             <div ag-grid="vm.gridOptions" class="ag-fresh" style="height: 200px"></div>
