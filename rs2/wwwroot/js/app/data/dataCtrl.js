@@ -15,7 +15,6 @@
         vm.izmena = false;
         vm.podatak = {};
         vm.records = [];
-        vm.offset = 1;
 
         var columnDefs = [
             { headerName: "ID", field: "recordId" },
@@ -94,8 +93,6 @@
         vm.kadPrikaz = function () {
             vm.unos = false;
             vm.prikaz = true;
-            vm.offset = vm.gridOptions.api.paginationGetRowCount() ? vm.gridOptions.api.paginationGetRowCount() - 1 : 0;
-
 
             setRowData(vm.records);
 
@@ -104,16 +101,29 @@
         vm.sacuvaj = function () {
             if (validan(vm.podatak)) {
                 if (vm.izmena) {
-                    RecordService.UpdateRecord($rootScope.userId, vm.podatak).then(function(response) {
-
+                    var data = [];
+                    data.push(vm.podatak);
+                    RecordService.UpdateRecord(data).then(function (response) {
+                        console.log(response);
                     });
+
+                    vm.podatak = {};
                     vm.izmena = false;
                 }
                 else {
                     RecordService.AddRecord(vm.podatak)
                         .then(function (response) {
-                            console.log(response);
-                            toastr.success('Podatak je dodat');
+                            var isError = response.success === false ? true : false;
+                            if (!isError) {
+                                console.log(response);
+                                toastr.success('Podatak je dodat', 'Success', {"timeOut": 5000, "positionClass": "toast-top-center"});
+                                vm.podatak = {};
+                            }
+                            else {
+                                toastr.error(response.message, "Error", {
+                                    "timeOut": 5000
+                                });
+                            }
                         });
                 }
 
@@ -135,6 +145,23 @@
 
         vm.obrisiSve = function () {
             RecordService.DeleteAllRecords()
+                .then(function (response) {
+                    console.log(response);
+                });
+        };
+
+        function uzmiId(rows) {
+            var niz = [];
+            rows.forEach(function (element) {
+                niz.push(element.recordId);
+            });
+            return niz;
+        }
+
+        vm.obrisi = function () {
+            var rows = vm.gridOptions.api.getSelectedRows();
+            rows = uzmiId(rows);
+            RecordService.DeleteRecords(rows)
                 .then(function (response) {
                     console.log(response);
                 });

@@ -14,7 +14,7 @@
         service.AddRecordsFromFile = AddRecordsFromFile;
         service.GetRecordsFromFile = GetRecordsFromFile;
         service.UpdateRecord = UpdateRecord;
-        service.DeleteRecordsByUser = DeleteRecordsByUser;
+        service.DeleteRecords = DeleteRecords;
         service.DeleteAllRecords = DeleteAllRecords;
  
         return service;
@@ -35,12 +35,12 @@
             return $http.get('http://localhost:5000/api/records/file').then(handleSuccess, handleError('Error getting records from file'));
         }
  
-        function UpdateRecord(id, records) {
-            return $http.put('http://localhost:5000/api/records?id=' + id, records).then(handleSuccess, handleError('Error updating records'));
+        function UpdateRecord(records) {
+            return $http.put('http://localhost:5000/api/records', records).then(handleSuccess, handleError('Error updating records'));
         }
  
-        function DeleteRecordsByUser(userId, records) {
-            return $http.delete('http://localhost:5000/api/records/' + userId, records).then(handleSuccess, handleError('Error deleting records by user'));
+        function DeleteRecords(records) {
+            return $http.delete('http://localhost:5000/api/records', records).then(handleSuccess, handleError('Error deleting records by user'));
         }
 
         function DeleteAllRecords() {

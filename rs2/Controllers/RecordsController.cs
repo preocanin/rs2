@@ -121,7 +121,7 @@ namespace rs2.Controllers
 
         // PUT: api/records
         [HttpPut]
-        public void Put(int id, [FromBody]IEnumerable<RecordPutModel> records)
+        public void Put([FromBody]IEnumerable<RecordPutModel> records)
         {
             if(AuthRepo.IsAuthenticated())
             {
@@ -145,7 +145,7 @@ namespace rs2.Controllers
             Response.StatusCode = 401;
         }
 
-        // DELETE: api/records/5
+        // DELETE: api/records
         [HttpDelete]
         public void Delete([FromBody]IEnumerable<int> recordsForDelete)
         {

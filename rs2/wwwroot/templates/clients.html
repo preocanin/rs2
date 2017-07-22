@@ -3,17 +3,8 @@
         <h2>Korisnici</h2>
     </div>
     <div class="row">
-        <table class="table table-hover">
-            <thead>
-                <th>id</th>
-                <th>korisničko ime</th>
-            </thead>
-            <tbody>
-                <tr ng-repeat="user in vm.data.users">
-                    <td><a href="#!/clients/{{user.userId}}">{{user.userId}}</a></td>
-                    <td>{{user.username}}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div ag-grid="vm.gridOptions" class="ag-fresh" style="height: 200px"></div>
     </div>
 </div>
+
+<!--href="#!/clients/{{user.userId}}"-->

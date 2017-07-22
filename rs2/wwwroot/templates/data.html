@@ -36,7 +36,8 @@
         <div ng-show="vm.prikaz">
             <div ag-grid="vm.gridOptions" class="ag-fresh" style="height: 200px"></div>
             <br>
-            <button class="btn btn-default" ng-click="vm.izmeniRed()">Izmeni red</button>
+            <button class="btn btn-default" ng-click="vm.izmeniRed()">Izmeni</button>
+            <button class="btn btn-default" ng-click="vm.obrisi()">Obrisi</button>
             <button class="btn btn-default" ng-click="vm.obrisiSve()">Obrisi sve</button>
             <button class="btn btn-default" ng-click="vm.download()">Excel file</button>
             <form id="downloadFile" method="GET" action="api/records/file">

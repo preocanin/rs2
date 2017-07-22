@@ -5,8 +5,8 @@
         .module('app')
         .factory('AuthenticationService', AuthenticationService);
  
-    AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService'];
-    function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService) {
+    AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'toastr'];
+    function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, toastr) {
         var service = {};
  
         service.Login = Login;
@@ -22,6 +22,10 @@
             $http.post('http://localhost:5000/api/auth/login', { email: email, password: password})
                 .then(function(response) {
                     callback(response);
+                }, function(message){
+                    toastr.error('Nepostojeci korisnik');
+                    ClearCredentials();
+                    console.log(message);
                 });
  
         }

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/lib/components-font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="~/lib/components-font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/lib/ag-grid/dist/styles/ag-grid.css" />
+    <link rel="stylesheet" href="~/lib/toastr/toastr.css" />
     <!--<link rel="styleSheet" href="~/lib/angular-ui-grid/src/less/grid.less" />-->
     <link rel="stylesheet" href="~/css/app.css">
     <title>Oculus Basis</title>
@@ -30,7 +31,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li ><a href="/">Početna</a></li>
-                <li ><a href="#!/data">Unos rezultata</a></li>
+                <li ng-hide="globals.currentUser.email === 'admin@gmail.com'" ><a href="#!/data">Unos rezultata</a></li>
                 <li ng-show="globals.currentUser.email === 'admin@gmail.com'" ><a href="#!/clients">Korisnici</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -53,8 +54,8 @@
 <script src="~/lib/angular-ui-router/release/angular-ui-router.min.js"></script> 
 <script src="~/lib/angular-route/angular-route.min.js"></script>
 <script src="~/lib/angular-cookies/angular-cookies.min.js"></script>
-<script src="~/lib/angular-toastr/dist/angular-toastr.tpls.js"></script>
 <script src="~/lib/toastr/toastr.min.js"></script>
+<script src="~/lib/angular-toastr/dist/angular-toastr.tpls.js"></script>
 <script src="~/lib/ag-grid/dist/ag-grid.min.js"></script>
 <script src="~/app.js"></script>
 <script src="~/js/services/authentication.service.js"></script>

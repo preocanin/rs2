@@ -18,8 +18,8 @@
  
         return service;
  
-        function GetAll() {
-            return $http.get('http://localhost:5000/api/users').then(handleSuccess, handleError('Error getting all users'));
+        function GetAll(offset, limit) {
+            return $http.get('http://localhost:5000/api/users?offset=' + offset + '&limit=' + limit).then(handleSuccess, handleError('Error getting all users'));
         }
  
         function GetById(id) {

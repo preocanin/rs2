@@ -444,4 +444,8 @@ a {
     width: 500px;
   height: 250px;
 }
+
+#toast-container > div {
+    opacity:1;
+}
 /* myStyle - end */
