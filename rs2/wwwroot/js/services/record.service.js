@@ -40,7 +40,14 @@
         }
  
         function DeleteRecords(records) {
-            return $http.delete('http://localhost:5000/api/records', records).then(handleSuccess, handleError('Error deleting records by user'));
+            return $http({
+                method: 'DELETE',
+                url: 'http://localhost:5000/api/records',
+                data: JSON.stringify(records),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(handleSuccess, handleError('Error deleting records by user'));
         }
 
         function DeleteAllRecords() {
