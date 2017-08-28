@@ -55,7 +55,7 @@
                     UserService.GetAll(params.startRow, 100)
                         .then(function (response) {
                             vm.count = response.count;
-                            vm.data = response;
+                            vm.data = response.users;
 
                             var rowsThisPage = vm.data.slice(params.startRow, params.endRow);
                             // if on or after the last page, work out the last row.

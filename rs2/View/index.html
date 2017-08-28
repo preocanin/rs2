@@ -35,7 +35,7 @@
                 <li ng-show="globals.currentUser.email === 'admin@gmail.com'" ><a href="#!/clients">Korisnici</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                    <li ><a href="#!/register"><span class="fa fa-user"></span> Registracija</a></li>
+                    <li ng-show="!globals.currentUser.email" ><a href="#!/register"><span class="fa fa-user"></span> Registracija</a></li>
                     <li ng-show="!globals.currentUser.email" ><a href="#!/login"><span class="fa fa-sign-in"></span> Prijavljivanje</a></li>
                     <li ng-click="vm.logout()" ng-hide="!globals.currentUser.email" ><a href="#!/login"><span class="fa fa-sign-out"></span> Odjavljivanje</a></li>
                 </ul>

@@ -146,7 +146,7 @@
         vm.obrisiSve = function () {
             RecordService.DeleteAllRecords()
                 .then(function (response) {
-                    console.log(response);
+                    vm.kadPrikaz();
                 });
         };
 
@@ -163,7 +163,7 @@
             rows = uzmiId(rows);
             RecordService.DeleteRecords(rows)
                 .then(function (response) {
-                    console.log(response);
+                    vm.kadPrikaz();
                 });
         };
 
