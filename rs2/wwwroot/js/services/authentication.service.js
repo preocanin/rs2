@@ -5,13 +5,14 @@
         .module('app')
         .factory('AuthenticationService', AuthenticationService);
  
-    AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService', 'toastr'];
-    function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService, toastr) {
+    AuthenticationService.$inject = ['$http', '$cookies', '$rootScope', '$timeout', 'UserService'];
+    function AuthenticationService($http, $cookies, $rootScope, $timeout, UserService) {
         var service = {};
  
         service.Login = Login;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
+        service.ChangePass = ChangePass;
  
         return service;
  
@@ -22,10 +23,8 @@
             $http.post('http://localhost:5000/api/auth/login', { email: email, password: password})
                 .then(function(response) {
                     callback(response);
-                }, function(message){
-                    toastr.error('Nepostojeci korisnik');
-                    ClearCredentials();
-                    console.log(message);
+                }, function(error){
+                    callback(error);
                 });
  
         }
@@ -53,6 +52,15 @@
             $rootScope.globals = {};
             $cookies.remove('globals');
             $http.defaults.headers.common.Authorization = 'Basic';
+        }
+
+        function ChangePass(id, data, callback) {
+            $http.put('http://localhost:5000/api/users/' + id, data)
+                .then(function(response) {
+                    callback(response);
+                }, function(error){
+                    callback(error);
+                });
         }
     }
  

@@ -25,6 +25,11 @@
                 controller: 'LoginController',
                 controllerAs: 'vm'
             })
+            .when('/changePassword', {
+                templateUrl: 'templates/changePassword.html',
+                controller: 'changePasswordCtrl',
+                controllerAs: 'vm'
+            })
             .when('/register', {
                 templateUrl: 'templates/register.html',
                 controller: 'RegisterController',

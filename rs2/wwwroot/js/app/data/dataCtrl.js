@@ -17,7 +17,6 @@
         vm.records = [];
 
         var columnDefs = [
-            { headerName: "ID", field: "recordId" },
             { headerName: "Pre X", field: "bx" },
             { headerName: "Pre Y", field: "by" },
             { headerName: "Posle X", field: "ax" },
@@ -194,11 +193,11 @@
                         url: "api/records/file",
                         data: form,
                         headers: {
-                            "Content-Type": undefined
+                            "Content-Type": "application/octet-stream"
                         }
-                    }).success(function () {
+                    }, function () {
                         console.log("Success");
-                    }).error(function () {
+                    }, function () {
                         console.log("Error");
                     });
                 }

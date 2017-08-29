@@ -10,9 +10,10 @@
 
         var vm = this;
         vm.data = {};  //objekat ima counts i users
+        vm.obradiKolonu = obradiKOlonu;
 
         var columnDefs = [
-            { headerName: "ID", field: "userId" },
+            { headerName: "ID", field: "userId", cellRenderer: vm.obradiKolonu },
             { headerName: "Username", field: "username" }
         ];
 
@@ -73,6 +74,10 @@
             vm.gridOptions.api.sizeColumnsToFit();
 
         }
+
+        function obradiKOlonu(params) {
+            return '<a href="#!/clients/' + params.value + '">' + params.value + '</a>';
+        };
 
 
     }

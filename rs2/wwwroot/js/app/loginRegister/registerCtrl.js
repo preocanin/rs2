@@ -10,6 +10,8 @@
         var vm = this;
  
         vm.register = register;
+
+        vm.regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
  
         function register() {
             vm.dataLoading = true;
