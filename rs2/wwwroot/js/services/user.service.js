@@ -38,8 +38,15 @@
             return $http.put('http://localhost:5000/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
         }
  
-        function Delete(id) {
-            return $http.delete('http://localhost:5000/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
+        function Delete(data) {
+            return $http({
+                method: 'DELETE',
+                url: 'http://localhost:5000/api/users',
+                data: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(handleSuccess, handleError('Error deleting users'));
         }
  
         // private functions

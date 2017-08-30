@@ -31,7 +31,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li ><a href="/">Početna</a></li>
-                <li ng-hide="isAdmin" ><a href="#!/data">Unos rezultata</a></li>
+                <li ng-hide="isAdmin || !globals.currentUser.email" ><a href="#!/data">Unos rezultata</a></li>
                 <li ng-show="isAdmin" ><a href="#!/clients">Korisnici</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

@@ -4,8 +4,8 @@
         .module('app')
         .controller('clientsCtrl', clientsCtrl);
 
-    clientsCtrl.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
-    function clientsCtrl(UserService, $location, $rootScope, FlashService) {
+    clientsCtrl.$inject = ['UserService', '$location', '$rootScope', 'FlashService', 'toastr'];
+    function clientsCtrl(UserService, $location, $rootScope, FlashService, toastr) {
         "use strict";
 
         var vm = this;
@@ -79,6 +79,24 @@
             return '<a href="#!/clients/' + params.value + '">' + params.value + '</a>';
         };
 
+        function uzmiId(rows) {
+            var niz = [];
+            rows.forEach(function (element) {
+                niz.push(element.userId);
+            });
+            return niz;
+        }
+
+        vm.obrisi = function () {
+            var rows = vm.gridOptions.api.getSelectedRows();
+            rows = uzmiId(rows);
+            UserService.Delete(rows)
+                .then(function (response) {
+                    console.log(response);
+                    toastr.success('Uspesno brisanje');
+                    setRowData();
+                });
+        }
 
     }
 
