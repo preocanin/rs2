@@ -52,6 +52,27 @@
             }
         };
 
+        var input_file = document.getElementById("file");
+
+        input_file.addEventListener("change", function () {
+            if (this.files.length > 0) {
+                var form = new FormData();
+                form.append("file", this.files[0]);
+                $http({
+                    method: "POST",
+                    url: "api/records/file",
+                    data: form,
+                    headers: {
+                       "Content-Type": "application/octet-stream"
+                    }
+                }, function () {
+                    console.log("Success");
+                }, function () {
+                    console.log("Error");
+                });
+            }
+        });
+
         vm.kadUnos = function () {
             vm.unos = true;
             vm.prikaz = false;
@@ -184,24 +205,6 @@
 
         vm.dodajExcel = function () {
             var input_file = document.getElementById("file");
-            input_file.addEventListener("change", function () {
-                if (this.files.length > 0) {
-                    var form = new FormData();
-                    form.append("file", this.files[0]);
-                    $http({
-                        method: "POST",
-                        url: "api/records/file",
-                        data: form,
-                        headers: {
-                            "Content-Type": "application/octet-stream"
-                        }
-                    }, function () {
-                        console.log("Success");
-                    }, function () {
-                        console.log("Error");
-                    });
-                }
-            });
             input_file.click();
         };
     }
