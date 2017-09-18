@@ -130,6 +130,9 @@ namespace rs2.Models.Repository
                 return 400;
             else
             {
+                foreach (var user in users)
+                    DeleteAllRecords(user.UserId);
+
                 Context.Users.RemoveRange(users);
                 Context.SaveChanges();
                 return 200;
