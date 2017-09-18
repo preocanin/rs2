@@ -19,7 +19,7 @@ namespace rs2.Models.Database
                         .HasAlternateKey(x => x.Email)
                         .HasName("Email_AlternateKey");
 
-            modelBuilder.Entity<User>().HasMany(x => x.Records);
+            modelBuilder.Entity<Record>().HasOne(x => x.User).WithMany(x => x.Records).OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }
