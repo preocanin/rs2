@@ -33,7 +33,7 @@ namespace rs2.Controllers
                 {
                     CookieOptions options = new CookieOptions()
                     {
-                        Expires = DateTime.Now.AddMinutes(2).AddSeconds(30)
+                        Expires = DateTime.Now.AddYears(1)
                     };
                     Response.Cookies.Append("access_token", access_token, options);
                     return Json(new { UserId = user.UserId, Role = user.Role });

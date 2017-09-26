@@ -4,8 +4,20 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <AssemblyName>rs2</AssemblyName>
     <RootNamespace>rs2</RootNamespace>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
+
   <ItemGroup>
+    <Content Include="wwwroot\css\app.css" />
+    <Content Include="wwwroot\templates\client.html" />
+    <Content Include="wwwroot\templates\clients.html" />
+    <Content Include="wwwroot\templates\data.html" />
+    <Content Include="wwwroot\templates\home.html" />
+    <Content Include="wwwroot\templates\login.html" />
+    <Content Include="wwwroot\templates\register.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="angular-toastr" Version="2.1.1" />
     <PackageReference Include="EPPlus.Core" Version="1.4.0" />
     <PackageReference Include="jose-jwt" Version="2.3.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -16,16 +28,16 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+    <PackageReference Include="toastr" Version="2.1.1" />
     <PackageReference Include="WebMarkupMin.AspNetCore1" Version="2.4.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\controllers\" />
     <Folder Include="wwwroot\img\" />
-    <Folder Include="wwwroot\templates\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>

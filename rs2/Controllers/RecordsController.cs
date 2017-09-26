@@ -65,7 +65,7 @@ namespace rs2.Controllers
             if (AuthRepo.IsAuthenticated())
             {
 
-                if (file != null && file.ContentType == XlsxContentType)
+                if (file != null && file.ContentType == "application/octet-stream" && file.FileName.Contains(".xlsx"))
                 {
                     var filename = Path.GetFileNameWithoutExtension(Path.GetTempFileName()) + ".xlsx";
                     var filePath = Path.Combine(Path.GetTempPath(), filename);
@@ -98,6 +98,8 @@ namespace rs2.Controllers
 
                     return; 
                 }
+                Response.StatusCode = 415;
+                return;
             }
 
             Response.StatusCode = 401;
@@ -119,7 +121,7 @@ namespace rs2.Controllers
 
         // PUT: api/records
         [HttpPut]
-        public void Put(int id, [FromBody]IEnumerable<RecordPutModel> records)
+        public void Put([FromBody]IEnumerable<RecordPutModel> records)
         {
             if(AuthRepo.IsAuthenticated())
             {
@@ -143,7 +145,7 @@ namespace rs2.Controllers
             Response.StatusCode = 401;
         }
 
-        // DELETE: api/records/5
+        // DELETE: api/records
         [HttpDelete]
         public void Delete([FromBody]IEnumerable<int> recordsForDelete)
         {

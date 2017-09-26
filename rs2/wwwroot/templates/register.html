@@ -1,0 +1,94 @@
+<!-- REGISTRATION FORM -->
+<!--
+<div class="text-center" style="padding:50px 0">
+	<div class="logo">Registrujte se</div>
+	 Main Form 
+	<div class="login-form-1">
+		<form id="register-form" class="text-left">
+			<div class="login-form-main-message"></div>
+			<div class="main-login-form">
+				<div class="login-group">
+					<div class="form-group">
+						<label for="reg_username" class="sr-only">Email adresa</label>
+						<input type="text" class="form-control" id="reg_username" name="reg_username" placeholder="korisničko ime">
+					</div>
+					<div class="form-group">
+						<label for="reg_password" class="sr-only">Lozinka</label>
+						<input type="password" class="form-control" id="reg_password" name="reg_password" placeholder="lozinka">
+					</div>
+					<div class="form-group">
+						<label for="reg_password_confirm" class="sr-only">Potvrda lozinke</label>
+						<input type="password" class="form-control" id="reg_password_confirm" name="reg_password_confirm" placeholder="potvrda lozinke">
+					</div>
+					
+					<div class="form-group">
+						<label for="reg_email" class="sr-only">Email</label>
+						<input type="text" class="form-control" id="reg_email" name="reg_email" placeholder="email">
+					</div>
+					<div class="form-group">
+						<label for="reg_fullname" class="sr-only">Ime i prezime</label>
+						<input type="text" class="form-control" id="reg_fullname" name="reg_fullname" placeholder="ime i prezime">
+					</div>
+					
+					<div class="form-group login-group-checkbox">
+						<input type="radio" class="" name="reg_gender" id="male" placeholder="korisničko ime">
+						<label for="male">muško</label>
+						
+						<input type="radio" class="" name="reg_gender" id="female" placeholder="korisničko ime">
+						<label for="female">žensko</label>
+					</div>
+				</div>
+				<button ng-click="vm.rg_submit()" class="login-button"><i class="fa fa-chevron-right"></i></button>
+			</div>
+			<div class="etc-login-form">
+				<p>Već imate nalog? ulogujte se <a href="#/login">ovde</a></p>
+			</div>
+		</form>
+	</div>
+-->
+<!-- end:Main Form -->
+<!--</div>-->
+
+<div class="col-md-6 col-md-offset-3">
+	<h2>Registracija</h2>
+	<form name="form" ng-submit="vm.register()" role="form">
+		<!--
+        <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
+            <label for="username">First name</label>
+            <input type="text" name="firstName" id="firstName" class="form-control" ng-model="vm.user.firstName" required />
+            <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">First name is required</span>
+        </div>
+-->
+		<!--
+        <div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
+            <label for="username">Last name</label>
+            <input type="text" name="lastName" id="Text1" class="form-control" ng-model="vm.user.lastName" required />
+            <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Last name is required</span>
+        </div>
+-->
+		<div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+			<label for="username">Korisničko ime</label>
+			<input type="text" name="username" id="username" class="form-control" ng-model="vm.user.username" required />
+			<span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Korisničko ime je obavezno</span>
+		</div>
+		<div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
+			<label for="email">Email</label>
+			<input type="text" name="email" id="email" class="form-control" ng-model="vm.user.email" required />
+			<span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email je obavezan</span>
+		</div>
+		<div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+			<label for="password">Lozinka</label>
+			<input type="password" name="password" id="password" class="form-control" ng-model="vm.user.password" required ng-pattern="vm.regularExpression"
+			/>
+			<span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Lozinka je obavezna</span>
+			<span ng-show="form.password.$dirty && form.$invalid" class="help-block">Lozinka mora imati najmanje 8 karaktera, medju kojima jednu cifru, jedno slovo i jedan specijalni karakter.</span>
+
+		</div>
+		<div class="form-actions">
+			<button ng-click="vm.register()" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Registruj se</button>
+			<img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+			/>
+			<a href="#!/login" class="register">Odustani</a>
+		</div>
+	</form>
+</div>

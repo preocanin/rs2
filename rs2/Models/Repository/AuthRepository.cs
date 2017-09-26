@@ -24,7 +24,6 @@ namespace rs2.Models.Repository
                 && Context.HttpContext.Request.Cookies["access_token"] != ""
                 && Context.HttpContext.Request.Cookies["access_token"] != "LOGED_OUT")
             {
-                //TODO: validate token and set properties  
                 bool status;
                 string jsonPayload = AppRepo.ValidateToken(
                     Context.HttpContext.Request.Cookies["access_token"], out status);

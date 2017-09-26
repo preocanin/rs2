@@ -1,0 +1,47 @@
+<div class="clients container">
+    <div class="title">
+        <div ng-show="vm.unos">
+            <h2>Unos podataka</h2>
+        </div>
+        <div ng-show="vm.prikaz">
+            <h2>Prikaz podataka</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" ng-click="vm.kadUnos()">Unos</button>
+            <button type="button" class="btn btn-default" ng-click="vm.kadPrikaz()">Prikaz</button>
+        </div>
+        <div ng-show="vm.unos">
+            <div class="input-group">
+                <span class="input-group-addon" id="preX">Pre X</span>
+                <input type="number" class="form-control" placeholder="" ng-model="vm.podatak.Bx">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon" id="preY">Pre Y</span>
+                <input type="number" class="form-control" placeholder="" ng-model="vm.podatak.By">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon" id="posleX">Posle X</span>
+                <input type="number" class="form-control" placeholder="" ng-model="vm.podatak.Ax">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon" id="posleY">Posle Y</span>
+                <input type="number" class="form-control" placeholder="" ng-model="vm.podatak.Ay">
+            </div>
+            <button class="btn btn-default" ng-click="vm.sacuvaj()">Sacuvaj</button>
+            <button class="btn btn-default" style="visibility:hidden" ng-click="vm.dodajExcel()">Dodaj excel fajl</button>
+            <input id="file" type="file" accept=".xlsx" style="display:none" />
+        </div>
+        <div ng-show="vm.prikaz">
+            <div ag-grid="vm.gridOptions" class="ag-fresh" style="height: 200px"></div>
+            <br>
+            <button class="btn btn-default" ng-click="vm.izmeniRed()">Izmeni</button>
+            <button class="btn btn-default" ng-click="vm.obrisi()">Obrisi</button>
+            <button class="btn btn-default" ng-click="vm.obrisiSve()">Obrisi sve</button>
+            <button class="btn btn-default" ng-click="vm.download()">Excel file</button>
+            <form id="downloadFile" method="GET" action="api/records/file">
+            </form>
+        </div>
+    </div>
+</div>
